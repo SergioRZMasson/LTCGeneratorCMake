@@ -1,0 +1,3 @@
+[submodule "Dependencies/ltc_code"]
+	path = Dependencies/ltc_code
+	url = https://github.com/SergioRZMasson/ltc_code.git
