@@ -43,6 +43,13 @@
                 "CMAKE_BUILD_TYPE": "Release"
             }
         }
-
-    ]
+    ],
+    "buildPresets": [
+        {
+          "name": "wasm-vcpkg",
+          "configurePreset": "wasm-vcpkg",
+          "targets": ["LTCGeneratorLibEmscriptenGlue"],
+          "configuration": "Release"
+        }
+      ]
 }

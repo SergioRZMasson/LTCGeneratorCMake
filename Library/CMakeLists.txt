@@ -22,3 +22,5 @@ find_package(CImg CONFIG REQUIRED)
 target_link_libraries(LTCGeneratorLib PUBLIC CImg::CImg)
 
 target_include_directories(LTCGeneratorLib PUBLIC "../Dependencies/ltc_code/fit/")
+
+add_subdirectory(LTCLibraryEmscriptenGlue)
