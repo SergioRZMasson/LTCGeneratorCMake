@@ -18,6 +18,7 @@ using namespace glm;
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
+#include <emscripten/bind.h>
 #endif
 
 // number of samples used to compute the error during fitting
@@ -379,20 +380,11 @@ int main(int argc, char* argv[])
 
 #include <emscripten.h>
 
-// Simple implementation of malloc and free
-EXTERN EMSCRIPTEN_KEEPALIVE
-void* my_malloc(size_t size) {
-    return malloc(size);
-}
-
-EXTERN EMSCRIPTEN_KEEPALIVE
-void my_free(void* ptr) {
-    free(ptr);
-}
-
-
-EXTERN EMSCRIPTEN_KEEPALIVE void BuildLTC(int N, vec4* tex1, vec4* tex2) {
+EXTERN EMSCRIPTEN_KEEPALIVE void BuildLTC(int N, size_t ltc1_ptr, size_t ltc2_ptr) {
     printf("Building LTC Matrix\n");
+
+    vec4* ltc1 = reinterpret_cast<vec4*>(ltc1_ptr);
+    vec4* ltc2 = reinterpret_cast<vec4*>(ltc2_ptr);
 
     // BRDF to fit
     BrdfGGX brdf;
@@ -411,12 +403,16 @@ EXTERN EMSCRIPTEN_KEEPALIVE void BuildLTC(int N, vec4* tex1, vec4* tex2) {
     genSphereTab(tabSphere, N);
 
     // pack tables (texture representation)
-    packTab(tex1, tex2, tab, tabMagFresnel, tabSphere, N);
+    packTab(ltc1, ltc2, tab, tabMagFresnel, tabSphere, N);
 
     // delete data
     delete[] tab;
     delete[] tabMagFresnel;
     delete[] tabSphere;
+}
+
+EMSCRIPTEN_BINDINGS(LTCGenerator) {
+    emscripten::function("BuildLTC", &BuildLTC);
 }
 
 #endif
