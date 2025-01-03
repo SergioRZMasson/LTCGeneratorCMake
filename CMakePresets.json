@@ -48,7 +48,7 @@
         {
           "name": "wasm-vcpkg",
           "configurePreset": "wasm-vcpkg",
-          "targets": ["LTCGeneratorLibEmscriptenGlue"],
+          "targets": ["LTCGenerator"],
           "configuration": "Release"
         }
       ]
